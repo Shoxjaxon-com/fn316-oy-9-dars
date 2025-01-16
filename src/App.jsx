@@ -106,27 +106,138 @@
 
 // 3-toshiriq
 
-import React, { useState } from "react";
-import Modal from "./coponets/Modal";
-function App() {
+// import React, { useState } from "react";
+// import Modal from "./coponets/Modal";
+// function App() {
 
-    const[ShowModal,setShowModal] = useState(false)
+//     const[ShowModal,setShowModal] = useState(false)
+
+//   return (
+//     <div className="h-screen flex flex-col items-center gap-6 bg-[#14161b] text-white">
+//       <h1 className="text-5xl font-bold mt-4">
+//         React Modal Tutorial
+//       </h1>
+//       <button 
+//       onClick={()=>{setShowModal(true)}}
+//       className="border-4 border-cyan-400 p-3 rounded-lg bg-cyan-400 text-white m-auto flex mt-5">
+//         Open Modaly
+//       </button>
+//       {ShowModal && <Modal onClose={()=>setShowModal(false)}/>}
+//     </div>
+//   );
+// }
+
+// export default App;        
+
+// 4-topshiriq
+
+
+// import React, { useRef, useState } from 'react';
+
+// function ProgressBar() {
+//   const progressRef = useRef(null);
+//   const [progress, setProgress] = useState(0);
+
+//   const handleAddProgress = () => {
+//     if (progress < 100) {
+//       setProgress(prev => prev + 10);
+//     }
+//   };
+
+//   const handleReset = () => {
+//     setProgress(0);
+//   };
+
+//   const getColor = () => {
+//     if (progress <= 50) return 'bg-green-500';
+//     if (progress <= 99) return 'bg-yellow-500';
+//     return 'bg-red-500';
+//   };
+
+//   return (
+//     <div className="flex flex-col items-center space-y-4 mt-8">
+//       <div className="w-full max-w-md">
+//         <div className="relative pt-1">
+//           <div className="flex mb-2 justify-between">
+//             <span>Progress</span>
+//             <span>{progress}%</span>
+//           </div>
+//           <div className="flex mb-2 h-2 bg-gray-200 rounded-full">
+//             <div
+//               ref={progressRef}
+//               className={`h-full rounded-full transition-all duration-300 ${getColor()}`}
+//               style={{ width: `${progress}%` }}
+//             />
+//           </div>
+//         </div>
+//       </div>
+//       <div className="flex space-x-4">
+//         <button
+//           onClick={handleAddProgress}
+//           className="bg-blue-500 text-white py-2 px-4 rounded disabled:opacity-50"
+//           disabled={progress === 100}
+//         >
+//           Add Progress
+//         </button>
+//         <button
+//           onClick={handleReset}
+//           className="bg-gray-500 text-white py-2 px-4 rounded"
+//         >
+//           Reset
+//         </button>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default ProgressBar;
+
+// 5-topshiriq
+
+import React, { useEffect, useRef, useState } from 'react';
+
+function ScrollAnimation() {
+  const [inView, setInView] = useState(false);
+  const cardRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setInView(true);
+      }
+    }, { threshold: 0.5 });
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => {
+      if (cardRef.current) {
+        observer.unobserve(cardRef.current);
+      }
+    };
+  }, []);
 
   return (
-    <div className="h-screen flex flex-col items-center gap-6 bg-[#14161b] text-white">
-      <h1 className="text-5xl font-bold mt-4">
-        React Modal Tutorial
-      </h1>
-      <button 
-      onClick={()=>{setShowModal(true)}}
-      className="border-4 border-cyan-400 p-3 rounded-lg bg-cyan-400 text-white m-auto flex mt-5">
-        Open Modaly
-      </button>
-      {ShowModal && <Modal onClose={()=>setShowModal(false)}/>}
+    <div className="flex flex-col items-center mt-8 space-y-8">
+      <div
+        ref={cardRef}
+        className={`transition-all transform duration-500 ${inView ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'} bg-white shadow-lg p-6 rounded-lg max-w-md w-full`}
+      >
+        <h2 className="text-xl font-semibold">Card 1</h2>
+        <p className="text-gray-600">Content of the first card. This content will fade in and slide up when scrolled into view.</p>
+      </div>
+      <div
+        ref={cardRef}
+        className={`transition-all transform duration-500 ${inView ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'} bg-white shadow-lg p-6 rounded-lg max-w-md w-full`}
+      >
+        <h2 className="text-xl font-semibold">Card 2</h2>
+        <p className="text-gray-600">Content of the second card. This content will fade in and slide up when scrolled into view.</p>
+      </div>
     </div>
   );
 }
 
-export default App;                 
+export default ScrollAnimation;
 
 
