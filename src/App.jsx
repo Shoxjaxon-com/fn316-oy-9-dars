@@ -1,77 +1,77 @@
 // 1-topshiriq
 
-// import React from 'react';
-// import { useRef } from 'react';
+import React from 'react';
+import { useRef } from 'react';
 
-// function App() {
-//   const nameRef = useRef('');
-//   const emailRef = useRef('');
+function App() {
+  const nameRef = useRef('');
+  const emailRef = useRef('');
 
-//   const validateEmail = (email) => {
-//     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-//     return regex.test(email);
-//   };
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
 
-//   function handleSave(e) {
-//     e.preventDefault();
+  function handleSave(e) {
+    e.preventDefault();
 
-//     if (!nameRef.current.value || nameRef.current.value.trim().length < 3) {
-//       alert('Ism eng kamida 3 ta belgidan iborat bo‘lishi kerak!');
-//       nameRef.current.focus();
-//       return;
-//     }
+    if (!nameRef.current.value || nameRef.current.value.trim().length < 3) {
+      alert('Ism eng kamida 3 ta belgidan iborat bo‘lishi kerak!');
+      nameRef.current.focus();
+      return;
+    }
 
-//     const email = emailRef.current.value;
-//     if (!email.trim()) {
-//       alert("Emailni kiriting!");
-//       emailRef.current.focus();
-//       return;
-//     }
+    const email = emailRef.current.value;
+    if (!email.trim()) {
+      alert("Emailni kiriting!");
+      emailRef.current.focus();
+      return;
+    }
 
-//     if (!validateEmail(email)) {
-//       alert("To‘g‘ri email formatini kiriting! (masalan: example@domain.com)");
-//       emailRef.current.focus();
-//       return;
-//     }
+    if (!validateEmail(email)) {
+      alert("To‘g‘ri email formatini kiriting! (masalan: example@domain.com)");
+      emailRef.current.focus();
+      return;
+    }
 
-//     const user = {
-//       name: nameRef.current.value,
-//       email: emailRef.current.value,
-//     };
+    const user = {
+      name: nameRef.current.value,
+      email: emailRef.current.value,
+    };
 
-//     console.log("Yangi foydalanuvchi:", user);
+    console.log("Yangi foydalanuvchi:", user);
 
-//     nameRef.current.value = '';
-//     emailRef.current.value = '';
-//   }
+    nameRef.current.value = '';
+    emailRef.current.value = '';
+  }
 
-//   return (
-//     <div>
-//       <form className="border border-indigo-950 w-96 block m-auto mt-20 p-10 rounded">
-//         <input
-//           className="border border-indigo-950 rounded mb-3 p-1"
-//           type="text"
-//           placeholder="Enter your name..."
-//           ref={nameRef}
-//         />
-//         <input
-//           className="border border-indigo-950 rounded p-1 block mb-5"
-//           type="email"
-//           placeholder="Enter your email ..."
-//           ref={emailRef}
-//         />
-//         <button
-//           className="border border-indigo-950 rounded px-3 m-auto"
-//           onClick={handleSave}
-//         >
-//           Save
-//         </button>
-//       </form>
-//     </div>
-//   );
-// }
+  return (
+    <div>
+      <form className="border border-indigo-950 w-96 block m-auto mt-20 p-10 rounded">
+        <input
+          className="border border-indigo-950 rounded mb-3 p-1"
+          type="text"
+          placeholder="Enter your name..."
+          ref={nameRef}
+        />
+        <input
+          className="border border-indigo-950 rounded p-1 block mb-5"
+          type="email"
+          placeholder="Enter your email ..."
+          ref={emailRef}
+        />
+        <button
+          className="border border-indigo-950 rounded px-3 m-auto"
+          onClick={handleSave}
+        >
+          Save
+        </button>
+      </form>
+    </div>
+  );
+}
 
-// export default App;
+export default App;
 
   // 2-topshiriq
 
@@ -194,50 +194,61 @@
 
 // 5-topshiriq
 
-import React, { useEffect, useRef, useState } from 'react';
+// import React, { useEffect, useRef, useState } from 'react';
 
-function ScrollAnimation() {
-  const [inView, setInView] = useState(false);
-  const cardRef = useRef(null);
+// function ScrollAnimation() {
+//   const cardRefs = useRef([]);
+//   const [inView, setInView] = useState([]);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setInView(true);
-      }
-    }, { threshold: 0.5 });
+//   useEffect(() => {
+//     const observer = new IntersectionObserver(
+//       (entries) => {
+//         const visibleCards = entries.map((entry, index) =>
+//           entry.isIntersecting ? index : null
+//         ).filter((val) => val !== null);
+//         setInView((prev) => [...new Set([...prev, ...visibleCards])]);
+//       },
+//       { threshold: 0.5 }
+//     );
 
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
-    }
+//     cardRefs.current.forEach((card) => {
+//       if (card) observer.observe(card);
+//     });
 
-    return () => {
-      if (cardRef.current) {
-        observer.unobserve(cardRef.current);
-      }
-    };
-  }, []);
+//     return () => {
+//       cardRefs.current.forEach((card) => {
+//         if (card) observer.unobserve(card);
+//       });
+//     };
+//   }, []);
 
-  return (
-    <div className="flex flex-col items-center mt-8 space-y-8">
-      <div
-        ref={cardRef}
-        className={`transition-all transform duration-500 ${inView ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'} bg-white shadow-lg p-6 rounded-lg max-w-md w-full`}
-      >
-        <h2 className="text-xl font-semibold">Card 1</h2>
-        <p className="text-gray-600">Content of the first card. This content will fade in and slide up when scrolled into view.</p>
-      </div>
-      <div
-        ref={cardRef}
-        className={`transition-all transform duration-500 ${inView ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'} bg-white shadow-lg p-6 rounded-lg max-w-md w-full`}
-      >
-        <h2 className="text-xl font-semibold">Card 2</h2>
-        <p className="text-gray-600">Content of the second card. This content will fade in and slide up when scrolled into view.</p>
-      </div>
-    </div>
-  );
-}
+//   const cards = [
+//     "Content of the first card. This content will fade in and slide up when scrolled into view.",
+//     "Content of the second card. This content will fade in and slide up when scrolled into view.",
+//     "Content of the third card. This content will fade in and slide up when scrolled into view.",
+//   ];
 
-export default ScrollAnimation;
+//   return (
+//     <div className="flex flex-col items-center mt-8 space-y-8">
+//       {cards.map((content, index) => (
+//         <div
+//           key={index}
+//           ref={(el) => (cardRefs.current[index] = el)}
+//           className={`transition-all transform duration-500 ${
+//             inView.includes(index)
+//               ? 'translate-y-0 opacity-100'
+//               : 'translate-y-20 opacity-0'
+//           } bg-white shadow-lg p-6 rounded-lg max-w-md w-full`}
+//         >
+//           <h2 className="text-xl font-semibold">Card {index + 1}</h2>
+//           <p className="text-gray-600">{content}</p>
+//         </div>
+//       ))}
+//     </div>
+//   );
+// }
+
+// export default ScrollAnimation;
+
 
 
